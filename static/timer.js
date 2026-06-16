@@ -5,7 +5,13 @@ let currentSessionId = null;
 let stats = { total_minutes: 0, session_count: 0, milestones: [] };
 
 const MILESTONES = [
-,
+  { minutes: 25,   label: "Prisoner",      prize_eligible: false, icon: "⛓️" },
+  { minutes: 60,   label: "Swabbie",       prize_eligible: false, icon: "☠️" },
+  { minutes: 180,  label: "Cook",          prize_eligible: false, icon: "👨‍🍳" },
+  { minutes: 300,  label: "Bosun",         prize_eligible: false, icon: "⚓" },
+  { minutes: 600,  label: "First Mate",    prize_eligible: true,  icon: "🏴‍☠️" },
+  { minutes: 1500, label: "Quatermaster",  prize_eligible: true,  icon: "🧭" },
+  { minutes: 3000, label: "Captain",       prize_eligible: true,  icon: "🦜" },
 ];
 
 // ── DOM refs ───────────────────────────────────────────────────────────────────
