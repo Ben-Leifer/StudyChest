@@ -44,6 +44,5 @@ class User(db.Model):
     password_hash = db.Column(db.String(100), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-    # Relationships — lets you do user.sessions and user.badges later
     sessions = db.relationship('StudySession', backref='user', lazy=True)
     badges = db.relationship('EarnedBadge', backref='user', lazy=True)

@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, request, jsonify, session
+from flask import Blueprint, render_template, request, jsonify, session, url_for, redirect, flash
 from webapp import db
-from webapp.models import StudySession, EarnedBadge, MILESTONES
+from webapp.models import StudySession, EarnedBadge, MILESTONES, User
 from datetime import datetime
 import uuid
 
@@ -19,6 +19,18 @@ def get_session_key():
 def index():
     return render_template('index.html')
 
+@main.route('/register')
+def register():
+    return render_template('register.html')
+
+@main.route('/login')
+def login():
+    return render_template('login.html')
+
+@main.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('main.index'))
 
 # ── API ────────────────────────────────────────────────────────────────────────
 
@@ -54,7 +66,6 @@ def end_session():
         "new_badges": new_badges,
     })
 
-
 @main.route('/api/stats', methods=['GET'])
 def stats():
     key = get_session_key()
@@ -83,7 +94,27 @@ def stats():
         "milestones": milestone_data,
     })
 
+# ── Register ────────────────────────────────────────────────────────────────────
 
+@main.route('/register', methods=["GET", "POST"])
+def register_session():
+    if request.method == 'GET':
+        return render_template('register.html')
+
+    # POST request — process the form
+    username = request.form.get('username')
+    email = request.form.get('email')
+    password = request.form.get('password')
+
+    #check fields are filled
+    if not username or not email or not password:
+        return render_template('register.html', error="All fields are required.")
+    
+    #check if username or email already exists
+    existing_user = User.query.filter_by(email=email).first() 
+    if existing_user:
+        flash('An account with that email already exists')
+        return render_template('register.html')
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
 def _check_milestones(session_key: str, new_session_seconds: int) -> list:
