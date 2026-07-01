@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>StudyChest</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <h1 class="logo">Study<span>Chest</span></h1>
+    <p class="tagline">Study timer and milestone tracker</p>
+  </header>
+
+  <main>
+    <section class="timer-card" aria-label="Study timer">
+      <p class="session-label" id="sessionLabel">READY TO STUDY</p>
+      <div class="timer-display" id="timerDisplay">00:00:00</div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" id="startBtn" type="button">Start</button>
+        <button class="btn btn-stop hidden" id="stopBtn" type="button">Stop</button>
+      </div>
+
+      <div class="streak-bar" aria-hidden="true">
+        <div class="streak-fill" id="streakFill"></div>
+      </div>
+      <p class="next-milestone" id="nextMilestone">Loading milestones...</p>
+    </section>
+
+    <section class="stats-strip" aria-label="Study stats">
+      <div>
+        <span class="stat-value" id="totalHours">0h 0m</span>
+        <span class="stat-label">Studied</span>
+      </div>
+      <div>
+        <span class="stat-value" id="sessionCount">0</span>
+        <span class="stat-label">Sessions</span>
+      </div>
+      <div>
+        <span class="stat-value" id="badgeCount">0</span>
+        <span class="stat-label">Badges</span>
+      </div>
+    </section>
+
+    <section class="milestones-section" aria-label="Milestones">
+      <h2 class="section-title">Milestones</h2>
+      <div class="milestones-grid" id="milestonesGrid"></div>
+    </section>
+  </main>
+
+  <div class="overlay hidden" id="overlay"></div>
+  <div class="badge-popup hidden" id="badgePopup" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
+    <div class="badge-icon" id="popupIcon"></div>
+    <h2 class="badge-title" id="popupTitle">Badge Unlocked!</h2>
+    <p class="badge-desc" id="popupDesc"></p>
+    <button class="btn btn-primary" type="button" onclick="closeBadgePopup()">Continue</button>
+  </div>
+
+  <script src="{{ url_for('static', filename='timer.js') }}"></script>
+</body>
+</html>

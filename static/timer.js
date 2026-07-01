@@ -114,7 +114,7 @@ function renderMilestones() {
         <div class="milestone-name">${m.label}</div>
         <div class="milestone-time">${timeLabel}</div>
       </div>
-      ${m.prize_eligible ? '<span class="milestone-prize">🎁 Real Prize</span>' : ''}
+      ${m.prize_eligible ? '<span class="milestone-prize">🪙 Loot Pillaged</span>' : ''}
     `;
     milestonesGrid.appendChild(row);
   });
