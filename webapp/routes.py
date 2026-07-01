@@ -1,10 +1,13 @@
 from flask import Blueprint, render_template, request, jsonify, session, url_for, redirect, flash
+from flask_login import login_user, logout_user, login_required, current_user
+from flask_bcrypt import Bcrypt
 from webapp import db
 from webapp.models import StudySession, EarnedBadge, MILESTONES, User
 from datetime import datetime
 import uuid
 
 main = Blueprint('main', __name__)
+bcrypt = Bcrypt()
 
 def get_session_key():
     """Return (or create) a persistent anonymous session key stored in the browser session."""
@@ -110,11 +113,27 @@ def register_session():
     if not username or not email or not password:
         return render_template('register.html', error="All fields are required.")
     
-    #check if username or email already exists
+    #check if email already exists
     existing_user = User.query.filter_by(email=email).first() 
     if existing_user:
         flash('An account with that email already exists')
         return render_template('register.html')
+    
+    #hash password
+    password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
+
+    #add new user
+    new_user = User(username=username, email=email, password_hash=password_hash)
+    db.session.add(new_user)
+    db.session.commit()
+
+    #redirect to login
+    flash('Account created! Please log in.')
+    return redirect(url_for('main.login'))
+
+
+#### TODO : Add login post route and functionality, including password verification and session management.
+#### TODO : Add logout route and functionality, including session termination and redirect to home page.
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
 def _check_milestones(session_key: str, new_session_seconds: int) -> list:
