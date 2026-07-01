@@ -1,0 +1,283 @@
+/* ── Reset & base ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #0a0a0f;
+  --surface:   #13131a;
+  --border:    #1e1e2e;
+  --accent:    #c8f135;   /* electric lime — the one bold choice */
+  --accent-dim:#8faa22;
+  --text:      #e8e8f0;
+  --muted:     #6b6b80;
+  --earned:    #c8f135;
+  --uneaned:   #1e1e2e;
+  --danger:    #ff4f4f;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  padding-bottom: 4rem;
+}
+
+/* ── Header ──────────────────────────────────────────────────────── */
+.site-header {
+  text-align: center;
+  padding: 2.5rem 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.logo span { color: var(--accent); }
+
+.tagline {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 0.3rem;
+}
+
+/* ── Timer card ──────────────────────────────────────────────────── */
+.timer-card {
+  max-width: 480px;
+  margin: 3rem auto 0;
+  padding: 2.5rem 2rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  text-align: center;
+  position: relative;
+}
+
+.session-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+
+.timer-display {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: clamp(3rem, 12vw, 5.5rem);
+  letter-spacing: -0.03em;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 2rem;
+  transition: color 0.3s;
+}
+
+.timer-display.running { color: var(--accent); }
+
+/* ── Buttons ─────────────────────────────────────────────────────── */
+.btn-row { display: flex; gap: 0.75rem; justify-content: center; margin-bottom: 1.5rem; }
+
+.btn {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.75rem 2rem;
+  border-radius: 0.65rem;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.1s, opacity 0.2s;
+}
+
+.btn:active { transform: scale(0.97); }
+
+.btn-primary {
+  background: var(--accent);
+  color: #0a0a0f;
+}
+
+.btn-primary:hover { opacity: 0.88; }
+
+.btn-stop {
+  background: transparent;
+  border: 1px solid var(--danger);
+  color: var(--danger);
+}
+
+.btn-stop:hover { background: rgba(255,79,79,0.08); }
+
+.hidden { display: none !important; }
+
+/* ── Progress bar ────────────────────────────────────────────────── */
+.streak-bar {
+  height: 4px;
+  background: var(--border);
+  border-radius: 99px;
+  overflow: hidden;
+  margin-bottom: 0.6rem;
+}
+
+.streak-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 99px;
+  width: 0%;
+  transition: width 1s linear;
+}
+
+.next-milestone {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+/* ── Stats strip ─────────────────────────────────────────────────── */
+.stats-strip {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  max-width: 480px;
+  margin: 2rem auto;
+  padding: 1.5rem 2rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  text-align: center;
+}
+
+.stat-value {
+  display: block;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--accent);
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 0.2rem;
+}
+
+/* ── Milestones ──────────────────────────────────────────────────── */
+.milestones-section {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.section-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  margin-bottom: 1rem;
+  padding: 0 0.25rem;
+}
+
+.milestones-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.milestone-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.85rem;
+  transition: border-color 0.3s;
+}
+
+.milestone-row.earned {
+  border-color: var(--accent);
+  background: rgba(200,241,53,0.04);
+}
+
+.milestone-icon {
+  font-size: 1.5rem;
+  min-width: 2rem;
+  text-align: center;
+  filter: grayscale(1);
+  opacity: 0.35;
+  transition: filter 0.3s, opacity 0.3s;
+}
+
+.milestone-row.earned .milestone-icon {
+  filter: grayscale(0);
+  opacity: 1;
+}
+
+.milestone-info { flex: 1; }
+
+.milestone-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.milestone-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-top: 0.15rem;
+}
+
+.milestone-prize {
+  font-size: 0.7rem;
+  background: rgba(200,241,53,0.12);
+  color: var(--accent);
+  padding: 0.2rem 0.55rem;
+  border-radius: 99px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+/* ── Badge popup ─────────────────────────────────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 10;
+  backdrop-filter: blur(4px);
+}
+
+.badge-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 11;
+  background: var(--surface);
+  border: 1px solid var(--accent);
+  border-radius: 1.5rem;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  min-width: 300px;
+  box-shadow: 0 0 60px rgba(200,241,53,0.15);
+  animation: popIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+@keyframes popIn {
+  from { transform: translate(-50%, -50%) scale(0.85); opacity: 0; }
+  to   { transform: translate(-50%, -50%) scale(1);    opacity: 1; }
+}
+
+.badge-icon   { font-size: 3.5rem; margin-bottom: 0.75rem; }
+.badge-title  { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.4rem; color: var(--accent); margin-bottom: 0.5rem; }
+.badge-desc   { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.5; }
