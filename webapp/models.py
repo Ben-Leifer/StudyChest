@@ -18,6 +18,7 @@ class StudySession(db.Model):
     started_at = db.Column(db.DateTime, default=datetime.utcnow)
     ended_at = db.Column(db.DateTime, nullable=True)
     duration_seconds = db.Column(db.Integer, nullable=True)  # filled on end
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True) 
 
     def to_dict(self):
         return {
@@ -35,3 +36,14 @@ class EarnedBadge(db.Model):
     earned_at = db.Column(db.DateTime, default=datetime.utcnow)
     prize_claimed = db.Column(db.Boolean, default=False)
     shipping_info = db.Column(db.Text, nullable=True)  # JSON in Phase 3+
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password_hash = db.Column(db.String(100), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    # Relationships — lets you do user.sessions and user.badges later
+    sessions = db.relationship('StudySession', backref='user', lazy=True)
+    badges = db.relationship('EarnedBadge', backref='user', lazy=True)
