@@ -2,13 +2,13 @@ from webapp import db
 from datetime import datetime
 
 MILESTONES = [
-    {"minutes": 25,    "label": "First Focus",    "prize_eligible": False, "icon": "🔥"},
-    {"minutes": 60,    "label": "One Hour Hero",  "prize_eligible": False, "icon": "⚡"},
-    {"minutes": 180,   "label": "Deep Work",      "prize_eligible": False, "icon": "🧠"},
-    {"minutes": 300,   "label": "Iron Mind",      "prize_eligible": False, "icon": "💎"},
-    {"minutes": 600,   "label": "Scholar",        "prize_eligible": True,  "icon": "🏆"},  # 10 hrs total - prize eligible
-    {"minutes": 1500,  "label": "Grind King",     "prize_eligible": True,  "icon": "👑"},  # 25 hrs total
-    {"minutes": 3000,  "label": "Legend",         "prize_eligible": True,  "icon": "🌟"},  # 50 hrs total
+  { "minutes": 25,   "label": "Prisoner",      "prize_eligible": "false", "icon": "⛓️" },
+  { "minutes": 60,   "label": "Swabbie",       "prize_eligible": "false", "icon": "☠️" },
+  { "minutes": 180,  "label": "Cook",          "prize_eligible": "false", "icon": "👨‍🍳" },
+  { "minutes": 300,  "label": "Bosun",         "prize_eligible": "false", "icon": "⚓" },
+  { "minutes": 600,  "label": "First Mate",    "prize_eligible": "true",  "icon": "🏴‍☠️" },
+  { "minutes": 1500, "label": "Quatermaster",  "prize_eligible": "true",  "icon": "🧭" },
+  { "minutes": 3000, "label": "Captain",       "prize_eligible": "true",  "icon": "🦜" },
 ]
 
 class StudySession(db.Model):
