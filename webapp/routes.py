@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, jsonify, session, url_for
 from flask_login import login_user, logout_user, login_required, current_user
 from flask_bcrypt import Bcrypt
 from webapp import db
-from webapp.models import StudySession, EarnedBadge, MILESTONES, User, login_manager
+from webapp.models import StudySession, EarnedBadge, MILESTONES, User
 from datetime import datetime
 import uuid
 
@@ -21,14 +21,6 @@ def get_session_key():
 @main.route('/')
 def index():
     return render_template('index.html')
-
-@main.route('/register')
-def register():
-    return render_template('register.html')
-
-@main.route('/login')
-def login():
-    return render_template('login.html')
 
 @main.route('/logout')
 def logout():
@@ -129,7 +121,7 @@ def register_session():
 
     #redirect to login
     flash('Account created! Please log in.')
-    return redirect(url_for('main.login'))
+    return redirect(url_for('main.login_session'))
 
 #── Login ────────────────────────────────────────────────────────────────────
 @main.route('/login', methods=["GET", "POST"])
@@ -156,7 +148,6 @@ def login_session():
     flash('Logged in successfully!')
     return redirect(url_for('main.index'))
 
-#### TODO : Add logout route and functionality, including session termination and redirect to home page.
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
 def _check_milestones(session_key: str, new_session_seconds: int) -> list:
