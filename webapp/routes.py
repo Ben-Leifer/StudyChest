@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, jsonify, session, url_for
 from flask_login import login_user, logout_user, login_required, current_user
 from flask_bcrypt import Bcrypt
 from webapp import db
-from webapp.models import StudySession, EarnedBadge, MILESTONES, User
+from webapp.models import StudySession, EarnedBadge, MILESTONES, User, login_manager
 from datetime import datetime
 import uuid
 
@@ -131,8 +131,31 @@ def register_session():
     flash('Account created! Please log in.')
     return redirect(url_for('main.login'))
 
+#── Login ────────────────────────────────────────────────────────────────────
+@main.route('/login', methods=["GET", "POST"])
+def login_session():
+    if request.method == 'GET':
+        return render_template('login.html')
 
-#### TODO : Add login post route and functionality, including password verification and session management.
+    # POST request — process the form
+    email = request.form.get('email')
+    password = request.form.get('password')
+
+    #check fields are filled
+    if not email or not password:
+        return render_template('login.html', error="All fields are required.")
+    
+    #check if user exists
+    user = User.query.filter_by(email=email).first() 
+    if not user or not bcrypt.check_password_hash(user.password_hash, password):
+        flash('Invalid email or password')
+        return render_template('login.html')
+
+    #log in user
+    login_user(user)
+    flash('Logged in successfully!')
+    return redirect(url_for('main.index'))
+
 #### TODO : Add logout route and functionality, including session termination and redirect to home page.
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
